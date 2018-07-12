@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Assinment - Peter Durica</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
+
+
+  </head>
+
+  <body>
+
+      <header>
+
+      </header>
+<div>
+      <section>
+
+      </section>
+</div>
+<P id="demo"></P>
+    <script>
+    var header = document.querySelector('header');
+    var section = document.querySelector('section');
+
+    var requestURL = 'https://api.myjson.com/bins/1983ce.json';
+    var request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'text';
+    request.send();
+
+    request.onload = function() {
+      var allToursText = request.response;
+      var allTours = JSON.parse(allToursText);
+      populateHeader(allTours);
+      showTours(allTours);
+    }
+
+    function populateHeader(jsonObj) {
+      
+      /*
+      var myPara = document.createElement('p');
+      myPara.textContent = 'Hometown: ' + jsonObj['homeTown'] + ' // Formed: ' + jsonObj['formed'];
+      header.appendChild(myPara);
+      */
+    }
+
+    function showTours(jsonObj) {
+      var tourS = jsonObj;/*jsonObj[0]['tours']; */
+    
+      
+
+
+      for(var i = 0; i < tourS.length; i++) {
+        var myArticle = document.createElement('article');
+        var groupNumber = document.createElement("h1");
+        var myList = document.createElement('ul');
+
+        groupNumber.textContent = "Group " + tourS[i].id;
+          
+        
+        var superPowers = tourS[i]['tours'];
+        for(var j = 0; j < superPowers.length; j++) {
+          var listItem = document.createElement('p');
+          var listItem2 = document.createElement('p');
+          var listItem3 = document.createElement('p');
+          var btnBookNow = document.createElement('BUTTON');
+          btnBookNow.className = "aClassName";
+          btnBookNow.text = "CLICK ME"
+          var textBtn = document.createTextNode("CLICK ME");       // Create a text node
+          btnBookNow.appendChild(textBtn);
+          listItem.textContent = superPowers[j].name;
+          listItem2.textContent = superPowers[j].seats + " Seats left";
+                   /* test */
+                     var tourS = jsonObj;/*jsonObj[0]['tours']; */
+                      for(var i = 0; i < tourS.length; i++) {
+                        var myArticle = document.createElement('article');
+                        var groupNumber = document.createElement("h1");
+                        var myList = document.createElement('ul');
+
+                        groupNumber.textContent = "Group " + tourS[i].id;
+                          
+                        
+                        var superPowers = tourS[i]['tours'];
+                        for(var j = 0; j < superPowers.length; j++) {
+
+                    // Set the date we're counting down to
+                    
+                    var countDownDate = new Date(superPowers[j].endDate);
+                    // Update the count down every 1 second
+                    var x = setInterval(function() {
+
+                    // Get todays date and time
+                    var now = new Date().getTime();
+                    
+                    // Find the distance between now an the count down date
+                    
+                    var distance = countDownDate - now;
+                    
+                    // Time calculations for days, hours, minutes and seconds
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    // Output the result in an element
+                
+                    listItem3.textContent = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+                  
+                    // If the count down is over, write some text 
+                    if (distance < 0) {
+                        clearInterval(x);
+                        listItem3.textContent = "EXPIRED";
+                    }
+                    }, 1000);
+           
+
+
+
+
+
+
+          
+          myList.appendChild(listItem);
+          myList.appendChild(listItem2);
+          myList.appendChild(listItem3);
+          myList.appendChild(btnBookNow);
+        }
+        
+        myArticle.appendChild(groupNumber);
+        myArticle.appendChild(myList);
+        
+       
+        
+        
+       
+          section.appendChild(myArticle); 
+
+
+
+                       
+
+      }
+
+
+
+
+
+
+
+    }
+
+    
+
+
+
+
+    </script>
+  </body>
+</html>
