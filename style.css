@@ -1,0 +1,76 @@
+/* || general styles */
+
+
+
+html {
+  font-family: 'PT Serif', serif;
+  background-color: #1e202d;
+
+}
+h1{
+  text-align: center;
+}
+h2 {
+    text-align: center;
+    color: #e54069;
+}
+p{
+  font-size: large;
+}
+div{
+  font-size: x-large;
+}
+
+.Groups {
+  margin: 5%;
+  background-color: #2a2e47;
+  color: #fff;
+}
+
+.tour {
+  margin: 5%;
+  padding-bottom: 2%;
+
+
+}
+.disabledGroup {
+  background-color: #5148945c;
+  margin: 5%;
+  color: #fff;
+}
+
+.seats{
+display: table-cell;
+}
+.seatsLEFT {
+display: table-cell;
+      padding-left: 1em;
+}
+.time {
+text-align: center;
+}
+
+.book {
+  display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 36%;
+      background: #e54069;
+      color: white;
+      padding: 7px 13px;
+      -webkit-border-radius: 27px;
+      -moz-border-radius: 27px;
+      border-radius: 27px;
+      border-color: #e5406a;
+
+}
+.book:disabled{
+  background: #d6728f;
+  color: grey;
+  border-color: #d6728f;
+}
+@media (min-width: 800px) {
+.book {
+  width: 15%;
+}
+}
