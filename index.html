@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Assinment - Peter Durica</title>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width">
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
+</head>
+
+<body>
+<div>
+    <section>
+
+    </section>
+</div>
+<script>
+    $(document).ready(function () {
+
+        let requestURL = 'https://api.myjson.com/bins/1983ce.json';
+        let request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'text';
+        request.send();
+
+        request.onload = function () {
+            createPage(JSON.parse(request.response));
+        };
+
+
+        /**
+         * Create web page with data
+         * @param tours
+         */
+        function createPage(tours) {
+            // console.log(tours);
+            let section = document.querySelector('section');
+
+            for (let i = 0; i < tours.length; i++) {
+                let group = createElement('div', null, 'group');
+                let groupName = createElement('h1', 'Group ' + (i + 1));
+                group.className =  "Groups";
+                section.appendChild(group);
+                group.appendChild(groupName);
+
+                let tour = tours[i]['tours'];
+
+                // Disable group with no elements
+                if (tour.length < 1) {
+                    disableGroup(group);
+                }
+
+                for (let j = 0; j < tour.length; j++) {
+
+                    let tourElement = createElement('div', tour[j].name, 'tour');
+                    let seatsElement = createElement('p', tour[j].seats, 'seats');
+                    let timeElement = createElement('p', tour[j].endDate, 'time');
+                    let seatsleft = createElement('p', " Seats left");
+                    seatsleft.textContent = "Seats left"
+                    seatsleft.className = "seatsLEFT";
+                    let bookBtn = createElement('button', 'Book now', 'book');
+
+                    bookBtn.onclick = function () {
+                        seatsElement.textContent = seatsElement.textContent - 1;
+                        if (seatsElement.textContent < 1) {
+                            disableGroup(group);
+                        }
+                    };
+
+                    createCountDown(timeElement);
+                    group.appendChild(tourElement);
+                    tourElement.appendChild(seatsElement);
+                    tourElement.appendChild(seatsleft);
+                    tourElement.appendChild(timeElement);
+                    tourElement.appendChild(bookBtn);
+                    // Disable group if on init is element disabled
+                    if (seatsElement.textContent < 1
+                        || timeElement.textContent === 'ORDER EXPIRED'
+                        || typeof tour[j].endDate === 'undefined'
+                        || new Date(tour[j].endDate).getTime() <= new Date().getTime()
+                    ) {
+                        disableGroup(group);
+                    }
+                }
+            }
+
+            /**
+             * Disable groups
+             * @param group
+             */
+            function disableGroup(group) {
+
+                let groupSeats = group.getElementsByClassName('seats');
+                for (let i = 0; i < groupSeats.length; i++) {
+                    groupSeats[i].textContent = "0";
+                }
+
+                let groupBtn = group.getElementsByClassName('book');
+                for (let i = 0; i < groupBtn.length; i++) {
+                    groupBtn[i].disabled = true;
+                }
+
+                let time = group.getElementsByClassName('time');
+                for (let i = 0; i < time.length; i++) {
+                    time[i].textContent = 'EXPIRED';
+                    createCountDown(time[i], null);
+                }
+                group.closest('div').className = 'disabledGroup';
+            }
+
+            function createElement(type, value = null, className = null) {
+                let element = document.createElement(type);
+
+                if (value != null) {
+                    element.textContent = value;
+                }
+
+                if (className != null) {
+                    element.className = className;
+                }
+
+                return element;
+            }
+
+
+            function createCountDown(time, interval = 1000) {
+                var countDownDate = new Date().getTime();
+                if (interval === 1000) {
+                    countDownDate = new Date(time.innerText).getTime();
+                }
+
+                let x = setInterval(function () {
+                    let now = new Date().getTime();
+                    let distance = countDownDate - now;
+
+                    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    if (distance < 1) {
+                        time.textContent = "EXPIRED";
+                    } else {
+                        time.textContent = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+                    }
+                }, interval);
+            }
+        }
+    });
+</script>
+</body>
+</html>
